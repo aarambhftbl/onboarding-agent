@@ -107,13 +107,12 @@ ONBOARDING_PATHS = {
     "Backend": {
         "Intern": [
             "✅ Complete company security & compliance training",
-            "🛠️ Set up development environment (Python, Docker, Git)",
-            "📁 Clone platform-backend repository",
-            "📖 Read system architecture documentation",
-            "🐳 Run backend service with Docker Compose",
-            "🧪 Run the test suite and understand test structure",
-            "🐛 Pick and fix a 'good-first-issue' from Jira",
-            "🔍 Complete your first code review on a teammate's PR",
+            "🛠️ Set up Node environment",
+            "📁 Clone repository",
+            "🐳 Run local server",
+            "📖 Review backend architecture doc",
+            "📏 Read API standards",
+            "🐛 Complete starter bug fix",
         ],
         "Junior": [
             "✅ Complete company security & compliance training",
@@ -162,14 +161,10 @@ ONBOARDING_PATHS = {
         ],
         "Senior": [
             "✅ Complete company security & compliance training",
-            "🏗️ Frontend architecture review with tech lead",
-            "📁 Access all frontend repositories",
-            "⚡ Performance audit the current application",
-            "🎨 Contribute improvements to the design system",
-            "🔧 Lead a complex frontend feature development",
-            "🧪 Set up or improve E2E testing with Playwright",
-            "📊 Drive frontend performance optimization initiative",
-            "👥 Mentor junior frontend developers",
+            "🏗️ Review frontend architecture",
+            "🎨 Access design system",
+            "🚀 Understand deployment pipeline",
+            "📖 Review PR guidelines",
         ],
     },
     "DevOps": {
