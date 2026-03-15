@@ -1,0 +1,52 @@
+{
+  "setup": {
+    "keywords": ["setup", "environment", "install", "installation", "configure", "start", "begin", "first", "getting started"],
+    "title": "Development Environment Setup",
+    "content": "To set up your development environment:\n\n1. **Install Prerequisites**: Ensure you have Git (2.40+), Python (3.11+), and Docker (24+) installed.\n2. **Clone the repo**: `git clone https://github.com/company/platform.git`\n3. **Install dependencies**: Run `pip install -r requirements.txt` in the backend folder, or `npm install` in the frontend folder.\n4. **Configure environment variables**: Copy `.env.example` to `.env` and fill in the secrets provided by your team lead.\n5. **Start services**: Run `docker-compose up -d` to spin up all dependency services (PostgreSQL, Redis, etc.).\n6. **Verify setup**: Run `make verify` to check that all services are running correctly.\n\nIf you run into issues, check the `#dev-setup` Slack channel or the Troubleshooting Guide in Confluence."
+  },
+  "repository": {
+    "keywords": ["clone", "repository", "repo", "git", "github", "access", "code", "source"],
+    "title": "Repository Access & Cloning",
+    "content": "**Repository Structure:**\n\n- `platform-backend` — Python/FastAPI microservices (main API)\n- `platform-frontend` — React/TypeScript customer-facing app\n- `infra` — Terraform + Helm configs for Kubernetes clusters\n- `data-pipelines` — Spark/Airflow ETL pipelines\n- `ml-models` — ML training and serving code\n\n**How to clone:**\n```bash\ngit clone git@github.com:company/platform-backend.git\ngit clone git@github.com:company/platform-frontend.git\n```\n\n**Access**: Request GitHub access via the IT portal (it.company.com). Your manager needs to approve before you gain access. SSH keys must be registered in your GitHub profile."
+  },
+  "architecture": {
+    "keywords": ["architecture", "system", "design", "overview", "infrastructure", "how it works", "components", "services", "microservices"],
+    "title": "System Architecture Overview",
+    "content": "**Platform Architecture:**\n\nWe use a **microservices architecture** deployed on **Kubernetes (EKS)**:\n\n```\n[Client Apps] → [API Gateway (Kong)] → [Backend Services]\n                                           ├── Auth Service (Python/FastAPI)\n                                           ├── User Service (Python/FastAPI)\n                                           ├── Payment Service (Java/Spring)\n                                           ├── Notification Service (Node.js)\n                                           └── Analytics Service (Python)\n                                      [Data Layer]\n                                           ├── PostgreSQL (primary DB)\n                                           ├── Redis (caching + queues)\n                                           ├── Elasticsearch (search)\n                                           └── S3 (object storage)\n```\n\n**Key principles**: Event-driven (Kafka for async), REST + gRPC for inter-service comms, 12-factor app methodology."
+  },
+  "backend": {
+    "keywords": ["backend", "api", "fastapi", "python", "server", "run backend", "service", "microservice"],
+    "title": "Running Backend Services",
+    "content": "**Running the backend locally:**\n\n```bash\n# 1. Navigate to backend directory\ncd platform-backend\n\n# 2. Create and activate virtual environment\npython -m venv venv\nsource venv/bin/activate  # On Windows: venv\\Scripts\\activate\n\n# 3. Install dependencies\npip install -r requirements.txt\n\n# 4. Start with Docker Compose (recommended)\ndocker-compose up\n\n# OR start individual service\nuvicorn app.main:app --reload --port 8000\n```\n\nThe API will be available at `http://localhost:8000`. API docs (Swagger) at `http://localhost:8000/docs`.\n\n**Running tests**: `pytest tests/ -v --cov=app`"
+  },
+  "frontend": {
+    "keywords": ["frontend", "react", "node", "npm", "ui", "interface", "javascript", "typescript", "component"],
+    "title": "Running Frontend Application",
+    "content": "**Running the frontend locally:**\n\n```bash\n# 1. Navigate to frontend directory\ncd platform-frontend\n\n# 2. Install Node.js dependencies\nnpm install\n\n# 3. Set up environment\ncp .env.example .env.local\n# Edit .env.local with your local API URL\n\n# 4. Start development server\nnpm run dev\n```\n\nThe app will be available at `http://localhost:3000`.\n\n**Build for production**: `npm run build`\n**Run tests**: `npm test`\n**Lint code**: `npm run lint`\n\nWe use React 18, TypeScript, Vite, TailwindCSS, and React Query."
+  },
+  "coding_standards": {
+    "keywords": ["coding standards", "standards", "code style", "style guide", "lint", "format", "convention", "best practices", "guidelines"],
+    "title": "Coding Standards & Style Guide",
+    "content": "**Python (Backend):**\n- Follow PEP 8; use `black` for formatting, `ruff` for linting\n- Type hints required on all public functions\n- Docstrings required for all modules and public classes\n- Max line length: 88 chars\n- Run `make lint` before committing\n\n**TypeScript (Frontend):**\n- ESLint + Prettier (run `npm run lint` and `npm run format`)\n- Functional components only; use React hooks\n- Props must be typed with TypeScript interfaces\n- No `any` types — use proper generics\n\n**General:**\n- Commit messages: Conventional Commits format (`feat:`, `fix:`, `chore:`)\n- Branch naming: `feature/<ticket-id>-short-description`\n- PRs require 2 approvals + passing CI\n- All secrets via environment variables — never hardcode\n- Write tests for all new features (aim for 80%+ coverage)"
+  },
+  "security": {
+    "keywords": ["security", "policy", "secrets", "credentials", "password", "token", "authentication", "authorization", "compliance"],
+    "title": "Security Policies",
+    "content": "**Security Requirements:**\n\n1. **Secrets Management**: All secrets stored in AWS Secrets Manager or HashiCorp Vault. Never commit secrets to git.\n2. **Authentication**: We use OAuth 2.0 + JWT tokens (15-min access tokens, 7-day refresh tokens).\n3. **Authorization**: Role-Based Access Control (RBAC). Request minimum permissions needed.\n4. **Data Handling**: PII must be encrypted at rest (AES-256) and in transit (TLS 1.3).\n5. **Dependency Security**: Run `pip audit` and `npm audit` regularly. Critical CVEs must be patched within 24 hours.\n6. **Code Scanning**: All PRs run SAST via Snyk and CodeQL.\n7. **Incident Response**: Any suspected breach → immediately alert `security@company.com` and `#security-incidents` Slack.\n\n**Compliance**: We are SOC 2 Type II and GDPR compliant. Complete mandatory security training within your first week."
+  },
+  "devops": {
+    "keywords": ["devops", "deploy", "deployment", "kubernetes", "docker", "ci", "cd", "pipeline", "terraform", "helm", "cloud", "aws"],
+    "title": "DevOps & Deployment Guide",
+    "content": "**CI/CD Pipeline:**\n- GitHub Actions for CI; ArgoCD for CD\n- Every PR triggers: lint → test → build → security scan\n- Merging to `main` auto-deploys to **staging** environment\n- Production deploys require a release PR + on-call engineer approval\n\n**Infrastructure:**\n- Cloud: AWS (EKS, RDS, ElastiCache, S3, CloudFront)\n- IaC: Terraform (in `infra/` repo)\n- Container orchestration: Kubernetes with Helm charts\n- Monitoring: Datadog, PagerDuty for alerts\n\n**Deployment commands (staging):**\n```bash\nmake deploy-staging SERVICE=auth-service\n```\n\n**Accessing environments:**\n- `kubectl config use-context staging-cluster`\n- `kubectl get pods -n platform`"
+  },
+  "onboarding_process": {
+    "keywords": ["onboarding", "process", "first day", "week", "what to do", "new", "join", "welcome"],
+    "title": "Onboarding Process",
+    "content": "**Welcome to the team! 🎉**\n\n**Week 1:**\n- Complete company security training (mandatory)\n- Set up development environment\n- Read architecture documentation\n- Shadow a senior developer\n- Fix your first 'good-first-issue' ticket\n\n**Week 2:**\n- Join your first sprint planning\n- Pair program on a small feature\n- Complete your first code review\n- Set up 1:1 with your manager\n\n**Week 3-4:**\n- Take ownership of a small feature\n- Participate in team demos\n- Complete all onboarding checklists\n\n**Resources:**\n- Engineering Wiki (Notion): notion.company.com\n- Slack: #engineering, #your-team, #dev-setup, #general\n- Jira for project tracking\n- Figma for design specs"
+  },
+  "testing": {
+    "keywords": ["test", "testing", "unit test", "integration", "pytest", "jest", "qa", "quality"],
+    "title": "Testing Guidelines",
+    "content": "**Testing Strategy:**\n\nWe follow the testing pyramid:\n- **Unit Tests** (70%): Fast, isolated, mock external deps\n- **Integration Tests** (20%): Test component interactions\n- **E2E Tests** (10%): Critical user journeys only\n\n**Python:**\n```bash\npytest tests/ -v                    # Run all tests\npytest tests/unit/ -v               # Unit tests only\npytest --cov=app --cov-report=html  # With coverage\n```\n\n**TypeScript:**\n```bash\nnpm test                  # Run all tests\nnpm run test:coverage     # With coverage report\nnpm run test:e2e          # Playwright E2E tests\n```\n\n**CI Gate**: All tests must pass + coverage must be ≥ 80% for PRs to merge."
+  }
+}
