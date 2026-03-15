@@ -5,7 +5,7 @@ Notification Service - Simulates HR notification when onboarding completes.
 from datetime import datetime
 
 
-def send_hr_notification(developer_profile: dict, stats: dict) -> str:
+def send_hr_notification(developer_profile: dict, stats: dict) -> dict:
     """
     Simulate sending an HR email notification.
     Prints to terminal and returns the notification message.
@@ -52,4 +52,7 @@ def send_hr_notification(developer_profile: dict, stats: dict) -> str:
     )
     print(f"\n✅ {short_msg}\n")
 
-    return short_msg
+    return {
+        "short_msg": short_msg,
+        "full_email": notification.strip()
+    }

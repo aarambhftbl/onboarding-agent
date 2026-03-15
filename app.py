@@ -609,8 +609,10 @@ with tab2:
 
         if not st.session_state["hr_notified"]:
             if st.button("📧 Send HR Notification", use_container_width=True):
-                msg = send_hr_notification(profile, stats)
+                result = send_hr_notification(profile, stats)
+                msg = result["short_msg"]
                 st.session_state["hr_notified"] = True
+                st.session_state["hr_email"] = result["full_email"]
                 st.session_state["chat_history"].append({
                     "role": "ai",
                     "content": f"🎉 **Onboarding complete!**\n\n✉️ HR has been notified:\n> *{msg}*\n\nWelcome to the team! You're sprint-ready. 🚀",
@@ -619,6 +621,9 @@ with tab2:
                 st.rerun()
         else:
             st.success("✅ HR has been notified. You're sprint-ready!")
+            if "hr_email" in st.session_state:
+                with st.expander("👀 View HR Email Format"):
+                    st.code(st.session_state["hr_email"], language="text")
     else:
         next_task = get_next_task(tasks, completed_tasks)
         if next_task:
@@ -657,8 +662,10 @@ with tab2:
     with col_all:
         if st.button("✅ Complete All (Demo)", use_container_width=True):
             st.session_state["completed_tasks"] = [True] * len(tasks)
-            msg = send_hr_notification(profile, calculate_progress([True] * len(tasks)))
+            result = send_hr_notification(profile, calculate_progress([True] * len(tasks)))
+            msg = result["short_msg"]
             st.session_state["hr_notified"] = True
+            st.session_state["hr_email"] = result["full_email"]
             st.session_state["chat_history"].append({
                 "role": "ai",
                 "content": f"🎉 **All tasks completed!**\n\n✉️ {msg}",
