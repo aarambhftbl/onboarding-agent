@@ -1,6 +1,7 @@
 """
 Checklist Manager - Tracks onboarding task completion and progress.
 """
+from __future__ import annotations
 
 
 def calculate_progress(completed_tasks: list[bool]) -> dict:
