@@ -30,4 +30,4 @@ Vector Knowledge Base
 
 Demo Video
 
-(YouTube / Drive link)
+https://drive.google.com/file/d/1sC1NNhjgYmsjP7NR6qk865IMRvv7I-bN/view?usp=drivesdk
