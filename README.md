@@ -1,6 +1,8 @@
 Project Title
 
-Autonomous Developer Onboarding Agent
+Team Name - BroCoders
+
+PS03 - Autonomous Developer Onboarding Agent
 
 Hackathon
 SYRUS 2026
